@@ -7,8 +7,8 @@ import scala.math;
  */
 class FrameCore {
 
-  val Xmax = 20
-  val Ymax = 20
+  val Xmax = 30
+  val Ymax = 30
   var FrameBuffer = Array.ofDim[Int](Xmax + 1, Ymax + 1)
 
   def drawPixel(x: Int, y: Int) {
@@ -25,8 +25,13 @@ class FrameCore {
     for (px <- x1 to x2) {
 
       println(px + " py no round " + calLineYCoord(x1, y1, x2, y2, px))
-
-      drawPixel(px, math.round(calLineYCoord(x1, y1, x2, y2, px)))
+      py = math.round(calLineYCoord(x1, y1, x2, y2, px))
+      drawPixel(px,py)
+      var fill=0;
+      print (((y2 / x2)-1 + " ---- "))
+      for(fill <- 0 to ((y2 / x2) )) {
+        drawPixel(px,py+fill)
+      }
     }
   }
 
@@ -47,14 +52,14 @@ class FrameCore {
   def renderBuffer() {
     var mem = 0
     drawXaxis(Xmax)
-    for (a <- 0 to Ymax) {
-      print(drawYaxis(Ymax, a))
-      for (b <- 0 to Xmax) {
-        if (FrameBuffer(a)(b) >0) {
-          if((a +1< Xmax && b +1< Ymax) ) {
-            FrameBuffer(a)(b+1)=2
+    for (y <- 0 to Ymax) {
+      print(drawYaxis(Ymax, y))
+      for (x <- 0 to Xmax) {
+        if (FrameBuffer(y)(x) >0) {
+          if((y +1< Xmax && x +1< Ymax) ) {
+            //FrameBuffer(y)(x+1)=2
           }
-          print(FrameBuffer(a)(b))
+          print(FrameBuffer(y)(x))
           mem = 1
         }
         else  {
@@ -87,7 +92,7 @@ object FrameCore {
     //    Buffer.drawPixel(2, 2)
 //    Buffer.drawPixel(2, 2)
 //    Buffer.drawPixel(0, 10)
-    Buffer.drawLine(0,0,5,20)
+    Buffer.drawLine(0,0,29,29)
     Buffer.renderBuffer()
 
   }
